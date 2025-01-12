@@ -1,0 +1,17 @@
+ int maxWater(vector<int> &arr) {
+        // code here
+        int n= arr.size() ; 
+        vector<int> right(n) ; 
+        right[n-1] = arr[n-1] ; 
+        for(int i = n-2 ; i >= 0 ; i--) {
+            // maintain
+            right[i] = max(right[i + 1] , arr[i]) ; 
+        }
+        int lm = arr[0] ; 
+         int ans = 0 ; 
+        for(int i= 0 ; i < n ; i++) {
+            lm = max(arr[i] , lm ) ; 
+            ans += min(right[i] ,lm) - arr[i] ; 
+        }
+        return ans ; 
+    }
