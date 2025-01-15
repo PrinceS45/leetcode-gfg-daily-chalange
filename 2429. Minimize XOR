@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int minimizeXor(int num1, int num2) {
+        int reqBit = __builtin_popcount(num2) , res = 0 ; 
+
+        for(int i= 31 ; i >= 0 && reqBit ; i-- ) {
+            int mask = 1 << i ; 
+            if(mask & num1) {
+                res = res | mask ; 
+               reqBit-- ; 
+            }
+        }
+          
+          for(int i =0 ; i <= 31 && reqBit ; i++) {
+               int mask = 1 << i  ; 
+               if((mask & res) == 0 ) {
+                   res = res | (mask) ;
+                   reqBit-- ; 
+               }
+          }
+
+          return res ; 
+    }
+};
