@@ -1,0 +1,46 @@
+class Solution {
+public:
+ 
+    vector<vector<int>> highestPeak(vector<vector<int>>& isWater) {
+       int n = isWater.size() , m = isWater[0].size() ; 
+       vector<vector<bool>> visited(n ,vector<bool> (m , false )) ; 
+          queue<pair<pair<int,int> , int > > q ; 
+          for(int i =0 ; i < n ; i++) {
+             for(int j =0 ; j < m  ; j++) {
+                 if(isWater[i][j]) {
+                    q.push({{i , j} , 0}) ;
+                    isWater[i][j] = 0 ; 
+                    visited[i][j] = true ; 
+                 }
+
+             }
+          }
+
+          auto isValid = [&] (int i , int j) {
+            return i >= 0 && j >= 0 && i < n && j < m ; 
+          } ;
+
+     // apply bfs
+       int r[4] = {0 , -1 , 0 , 1} ;
+       int c[4] = {-1 , 0 , 1 , 0} ; 
+        while(!q.empty()) {
+              auto cell = q.front()  ; q.pop() ; 
+              int row = cell.first.first , col = cell.first.second ; 
+              int height = cell.second ; 
+             for(int k =0 ; k < 4 ; k++) {
+                  int nr = row + r[k] , nc = col + c[k] ; 
+                  if(isValid(nr , nc) && !visited[nr][nc]) {
+                         isWater[nr][nc] = height+1 ; 
+                         q.push({{nr , nc} , height+1}) ; 
+                         visited[nr][nc] = true  ; 
+                  }
+             }
+
+
+        }
+
+        return isWater ; 
+
+
+    }
+};
