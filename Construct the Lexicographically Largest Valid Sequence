@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<int> constructDistancedSequence(int n) {
+           vector<int> ans(2 * n -1 , 0) ; 
+            vector<bool>visited(n+1 ,false   ) ; 
+
+            helper(0 , ans , visited , n)  ;
+            return ans ; 
+    }
+
+    bool helper(int idx , vector<int> & ans , vector<bool>& visited , int n) {
+           if(idx >= ans.size()) return true  ; 
+           if(ans[idx] != 0) return helper(idx+1 , ans , visited , n) ; 
+
+           for(int i =n ; i >= 1 ; i--) {
+                if(visited[i]) continue ; 
+                 ans[idx] = i ; 
+                 visited[i] = true  ; 
+             if (i == 1) {
+               if (helper(idx + 1, ans, visited, n)) return true;
+                 }
+                else if(idx + i < ans.size() && ans[idx+ i] == 0)  {
+                     ans[idx + i] = i ; 
+                     if(helper(idx+1 , ans , visited , n)) return true ; 
+
+                       ans[idx + i] = 0 ; 
+                }
+
+               ans[idx] = 0 ; 
+                visited[i] = false ; 
+           
+                
+           }
+           return false ; 
+                
+    }
+};
