@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string smallestNumber(string pattern) {
+        string ans = "";
+        vector<bool> visited(10, false); // Since digits are from '1' to '9'
+        
+        for (char i = '1'; i <= '9'; i++) {
+            if (helper(ans, i, pattern, 0, visited))
+                return ans;
+        }
+        return ans;
+    }
+    
+    bool helper(string& ans, char prev, string& pattern, int idx, vector<bool>& visited) {
+        ans.push_back(prev);
+        visited[prev - '0'] = true;
+        
+        if (idx == pattern.size()) return true;
+        
+        for (char i = '1'; i <= '9'; i++) {
+            if (!visited[i - '0']) {
+                if ((pattern[idx] == 'D' && i < prev) || (pattern[idx] == 'I' && i > prev)) {
+                    if (helper(ans, i, pattern, idx + 1, visited)) return true;
+                }
+            }
+        }
+        
+        visited[ans.back() - '0'] = false;
+        ans.pop_back();
+        return false;
+    }
+};
